@@ -44,22 +44,23 @@ public class MainActivity extends Activity {
         for (int i = 0; i < 2; i++) {
             savePath = String.format(pathFormat, i + 1);
             params = new DownloadParams(testUrl, savePath);
+            params.setTag("Tag"+(i+1));
             AsyncDownload.getInstance().download(params, new DownloadListener() {
 
                 @Override
                 public void onStart(DownloadParams params) {
 
-                    Log.i("AsyncDownload",params.getSavePath() + " download start");
+                    Log.i(TAG,params.getTag() + " download start");
                 }
 
                 @Override
                 public void onSuccess(DownloadParams params) {
-                    Log.i("AsyncDownload",params.getSavePath() + " download success");
+                    Log.i(TAG,params.getTag() + " download success");
                 }
 
                 @Override
                 public void onProgressUpdate(int progress, DownloadParams params) {
-                    Log.i("AsyncDownload",params.getSavePath() + " progress--->"+progress);
+                    Log.i(TAG,params.getTag() + " progress--->"+progress);
                 }
             });
         }

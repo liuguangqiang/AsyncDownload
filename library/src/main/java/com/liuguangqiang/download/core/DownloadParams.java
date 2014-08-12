@@ -6,7 +6,10 @@ public class DownloadParams {
 
     private String savePath;
 
-    public DownloadParams() {}
+    private String tag;
+
+    public DownloadParams() {
+    }
 
     public DownloadParams(String url, String savePath) {
         this.url = url;
@@ -29,4 +32,11 @@ public class DownloadParams {
         this.savePath = savePath;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }
