@@ -76,7 +76,7 @@ public class AsyncDownload {
     public void download(DownloadParams params, DownloadListener listener) {
         if (!isInited()) {
             throw new IllegalStateException(
-                    "AsyncDownload must be inited with configuration before using");
+                    "AsyncDownload must be initialized with configuration before using");
         }
         if (params == null) {
             throw new NullPointerException("call download() with null parameter.");
