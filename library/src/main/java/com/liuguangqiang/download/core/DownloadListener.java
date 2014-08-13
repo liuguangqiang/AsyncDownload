@@ -1,48 +1,38 @@
 package com.liuguangqiang.download.core;
 
+import android.os.Handler;
+import android.os.Message;
+
 /**
- *
  * DownloadListener
- *
+ * <p/>
  * Created by Eric on 2014-8-12
  */
-public class DownloadListener {
+public class DownloadListener extends AbstractDownloadListener {
 
-	/**
-	 * start to download
-	 * 
-	 * @param params
-	 */
-	public void onStart(DownloadParams params) {
-	}
+    @Override
+    public void onStart() {
 
-	/**
-	 * download success
-	 * 
-	 * @param params
-	 */
-	public void onSuccess(DownloadParams params) {
+    }
 
-	}
+    @Override
+    public void onSuccess() {
 
-	/**
-	 * update the progress of download
-	 * 
-	 * @param progress
-	 * @param params
-	 */
-	public void onProgressUpdate(int progress, DownloadParams params) {
+    }
 
-	}
+    @Override
+    public void onProgressUpdate(int progress) {
 
-	/**
-	 * download failure
-	 * 
-	 * @param msg
-	 * @param params
-	 */
-	public void onFailure(String msg, DownloadParams params) {
+    }
 
-	}
+    @Override
+    public void onFailure(String msg) {
+
+    }
+
+    @Override
+    public void onFinish() {
+
+    }
 
 }
