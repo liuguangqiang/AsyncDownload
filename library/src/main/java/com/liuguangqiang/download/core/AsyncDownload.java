@@ -16,9 +16,6 @@ import android.net.http.AndroidHttpClient;
  */
 public class AsyncDownload {
 
-    private int timeoutConnection = Constants.DEFAULT_TIMEOUT_CONNECTION;
-    private int timeoutSokect = Constants.DEFAULT_TIMEOUT_SOCKET;
-
     private DownloadConfiguration mConfiguration;
     private ExecutorService executorService;
     private AndroidHttpClient mHttpClient;
@@ -61,8 +58,8 @@ public class AsyncDownload {
         mHttpClient = AndroidHttpClient.newInstance(Constants.USER_AGENT);
         mHttpParams = mHttpClient.getParams();
         mHttpParams.setParameter(ClientPNames.HANDLE_REDIRECTS, true);
-        HttpConnectionParams.setConnectionTimeout(mHttpParams, timeoutConnection);
-        HttpConnectionParams.setSoTimeout(mHttpParams, timeoutSokect);
+        HttpConnectionParams.setConnectionTimeout(mHttpParams, mConfiguration.connectionTimeout);
+        HttpConnectionParams.setSoTimeout(mHttpParams, mConfiguration.socketTimeout);
     }
 
     private boolean isInited() {

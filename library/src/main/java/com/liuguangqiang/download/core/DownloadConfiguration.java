@@ -1,5 +1,7 @@
 package com.liuguangqiang.download.core;
 
+import android.text.TextUtils;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,11 +12,11 @@ import java.util.concurrent.Executors;
  */
 public final class DownloadConfiguration {
 
-    private ExecutorService executorService;
+    final ExecutorService executorService;
 
-    private long connectionTimeout = 0;
+    public int connectionTimeout=0;
 
-    private long socketTimeout = 0;
+    public int socketTimeout=0;
 
     private DownloadConfiguration(Builder builder) {
         this.executorService = builder.executorService;
@@ -30,9 +32,9 @@ public final class DownloadConfiguration {
 
         private ExecutorService executorService;
 
-        private long connectionTimeout;
+        private int connectionTimeout;
 
-        private long socketTimeout;
+        private int socketTimeout;
 
         public DownloadConfiguration build() {
             initDefault();
@@ -45,12 +47,12 @@ public final class DownloadConfiguration {
             if (socketTimeout == 0) socketTimeout = Constants.DEFAULT_TIMEOUT_SOCKET;
         }
 
-        public Builder setConnectionTimeout(long milliseconds) {
+        public Builder setConnectionTimeout(int milliseconds) {
             this.connectionTimeout = milliseconds;
             return this;
         }
 
-        public Builder setSocketTimeout(long millisencds) {
+        public Builder setSocketTimeout(int millisencds) {
             this.socketTimeout = millisencds;
             return this;
         }
