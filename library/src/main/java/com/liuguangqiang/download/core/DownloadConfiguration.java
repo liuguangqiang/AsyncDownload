@@ -41,8 +41,8 @@ public final class DownloadConfiguration {
 
         private void initDefault() {
             if (executorService == null) executorService = Executors.newFixedThreadPool(5);
-            if (connectionTimeout == 0) connectionTimeout = Config.DEFAULT_TIMEOUT_CONNECTION;
-            if (socketTimeout == 0) socketTimeout = Config.DEFAULT_TIMEOUT_SOCKET;
+            if (connectionTimeout == 0) connectionTimeout = Constants.DEFAULT_TIMEOUT_CONNECTION;
+            if (socketTimeout == 0) socketTimeout = Constants.DEFAULT_TIMEOUT_SOCKET;
         }
 
         public Builder setConnectionTimeout(long milliseconds) {
