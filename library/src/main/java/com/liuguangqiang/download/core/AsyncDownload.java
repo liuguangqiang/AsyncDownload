@@ -9,10 +9,10 @@ import org.apache.http.params.HttpParams;
 import android.net.http.AndroidHttpClient;
 
 /**
- * 
+ *
  * AsyncDownload
  *
- * Created by Eric on 2014-8-12.
+ * Created by Eric on 2014-8-12
  */
 public class AsyncDownload {
 

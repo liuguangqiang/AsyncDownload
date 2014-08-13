@@ -4,10 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 
+ *
  * DownloadConfiguration
  *
- * Created by Eric on 2014-8-12.
+ * Created by Eric on 2014-8-12
  */
 public final class DownloadConfiguration {
 

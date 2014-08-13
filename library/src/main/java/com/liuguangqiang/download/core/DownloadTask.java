@@ -16,7 +16,7 @@ import android.net.http.AndroidHttpClient;
  * 
  * DownloadTask
  *
- * Created by Eric on 2014年8月12日
+ * Created by Eric on 2014-8-12
  */
 public class DownloadTask implements Runnable {
 

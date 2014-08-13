@@ -1,5 +1,11 @@
 package com.liuguangqiang.download.core;
 
+/**
+ *
+ * DownloadParams
+ *
+ * Created by Eric on 2014-8-12
+ */
 public class DownloadParams {
 
     private String url;
