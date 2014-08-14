@@ -31,9 +31,8 @@ import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 /**
- * 
  * DownloadTask
- *
+ * <p/>
  * Created by Eric on 2014-8-12
  */
 public class DownloadTask implements Runnable {
@@ -50,10 +49,12 @@ public class DownloadTask implements Runnable {
 
 
     public DownloadTask(AndroidHttpClient httpClient, DownloadParams params,
-            DownloadListener listener) {
+                        DownloadListener listener) {
         this.mHttpClient = httpClient;
         this.mParams = params;
         this.mListener = listener;
+        if (this.mListener != null)
+            this.mListener.setDownloadParams(params);
     }
 
     @Override
@@ -66,9 +67,9 @@ public class DownloadTask implements Runnable {
         httpGet = new HttpGet(mParams.getUrl());
         try {
             httpResponse = mHttpClient.execute(httpGet);
-            int statusCode=httpResponse.getStatusLine().getStatusCode();
-            Log.i("StatusCode",""+statusCode);
-            if(statusCode== HttpStatus.SC_OK) {
+            int statusCode = httpResponse.getStatusLine().getStatusCode();
+            Log.i("StatusCode", "" + statusCode);
+            if (statusCode == HttpStatus.SC_OK) {
                 totalSize = httpResponse.getEntity().getContentLength();
                 File file = new File(mParams.getSavePath());
                 InputStream io = httpResponse.getEntity().getContent();
@@ -97,16 +98,16 @@ public class DownloadTask implements Runnable {
                 io.close();
                 bufferIo.close();
                 return true;
-            }else{
-                Log.i("StatusCode","下载失败");
+            } else {
+                Log.i("StatusCode", "下载失败");
             }
             return false;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("StatusCode","下载失败");
+            Log.i("StatusCode", "下载失败");
             if (mListener != null) mListener.sendFailureMessage(e.toString());
             return false;
-        }  
+        }
     }
 
 }
