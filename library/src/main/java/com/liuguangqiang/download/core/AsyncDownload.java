@@ -25,9 +25,8 @@ import org.apache.http.params.HttpParams;
 import android.net.http.AndroidHttpClient;
 
 /**
- *
  * Singleton for downloading.
- *
+ * <p/>
  * Created by Eric on 2014-8-12
  */
 public class AsyncDownload {
@@ -38,14 +37,17 @@ public class AsyncDownload {
     private HttpParams mHttpParams;
 
 
-    private AsyncDownload() {};
+    private AsyncDownload() {
+    }
+
+    ;
 
 
     private volatile static AsyncDownload instance;
 
     /**
      * Return singleton.
-     * 
+     *
      * @return
      */
     public static AsyncDownload getInstance() {
@@ -94,8 +96,7 @@ public class AsyncDownload {
      */
     public void download(DownloadParams params, DownloadListener listener) {
         if (!isInited()) {
-            throw new IllegalStateException(
-                    "AsyncDownload must be initialized with configuration before using");
+            init(DownloadConfiguration.createDefault());
         }
         if (params == null) {
             throw new NullPointerException("DownloadParams must not be null.");
