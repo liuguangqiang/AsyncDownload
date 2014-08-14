@@ -36,12 +36,22 @@ public abstract class AbstractDownloadListener {
 
     public static final int MESSAGE_UPDATE_PROGRESS = 5;
 
+    private DownloadParams mParams;
+
     private ResponseHandler mHandler;
 
     public AbstractDownloadListener() {
         if (mHandler == null) {
             mHandler = new ResponseHandler(this);
         }
+    }
+
+    public DownloadParams getDownloadParams() {
+        return mParams;
+    }
+
+    public void setDownloadParams(DownloadParams params) {
+        this.mParams = params;
     }
 
     public void sendStartMessage() {
