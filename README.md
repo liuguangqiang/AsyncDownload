@@ -1,7 +1,17 @@
 AsyncDownload
 =============
 
-A simple libray for download.
+A simple library for asynchronous downloading.
+
+###Configuration
+    DownloadConfiguration configuration=new DownloadConfiguration.Builder()
+            .setFixedThreadPool(5)
+            .setSingleThreadExecutor()
+            .setCachedThreadPool()
+            .setConnectionTimeout(10*1000)
+            .setSocketTimeout(60*1000)
+            .build();
+    AsyncDownload.getInstance().init(configuration);
 
 ###Simple
     //Download with AsyncDownload
@@ -9,22 +19,18 @@ A simple libray for download.
 
         @Override
         public void onStart() {
-            Log.i(TAG, getDownloadParams().getTag() + " start");
         }
 
         @Override
         public void onSuccess() {
-            Log.i(TAG, getDownloadParams().getTag() + " success");
         }
 
         @Override
         public void onProgressUpdate(int progress) {
-            Log.i(TAG, getDownloadParams().getTag() + " progress :" + progress); 
         }
 
         @Override
         public void onFailure(String msg) {
-            Log.i(TAG, getDownloadParams().getTag() + " failure : " + msg);
         }
     });
 
