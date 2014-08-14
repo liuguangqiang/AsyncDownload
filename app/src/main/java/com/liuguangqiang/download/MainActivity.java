@@ -15,7 +15,7 @@ import com.liuguangqiang.download.core.DownloadParams;
 
 public class MainActivity extends Activity {
 
-    private String TAG="AsyncDownload";
+    private String TAG = "AsyncDownload";
 
     private String filePath;
 
@@ -27,48 +27,51 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvProgress=(TextView)this.findViewById(R.id.tv_progress);
+        tvProgress = (TextView) this.findViewById(R.id.tv_progress);
         init();
         testDownload();
     }
 
-    private void init(){
+    private void init() {
         AsyncDownload.getInstance().init(
-                new DownloadConfiguration.Builder().setSingleThreadExecutor().build());
+                new DownloadConfiguration.Builder().setFixedThreadPool(3).build());
 
         filePath = FileUtils.getSdcardPath() + "/AsyncDownload";
         File file = new File(filePath);
         if (!file.exists()) file.mkdirs();
     }
+
     DownloadParams params;
+
     private void testDownload() {
         String pathFormat = filePath + "/t%s.apk";
 
         String savePath;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; i++) {
             savePath = String.format(pathFormat, i + 1);
             params = new DownloadParams(testUrl, savePath);
-            params.setTag("Tag"+(i+1));
+            params.setTag("Tag" + (i + 1));
             AsyncDownload.getInstance().download(params, new DownloadListener() {
 
                 @Override
                 public void onStart() {
-                    Log.i(TAG,"download start");
+                    Log.i(TAG, getDownloadParams().getTag() + " download start");
                 }
 
                 @Override
                 public void onSuccess() {
-                    Log.i(TAG,"download success");
+                    Log.i(TAG, getDownloadParams().getTag() + " download success");
                 }
 
                 @Override
                 public void onProgressUpdate(int progress) {
-                    tvProgress.setText("progress--->"+progress);
+                    Log.i(TAG, getDownloadParams().getTag() + " progress：" + progress);
+                    tvProgress.setText("progress--->" + progress);
                 }
 
                 @Override
                 public void onFailure(String msg) {
-                    Log.i(TAG,"下载失败 : " +msg);
+                    Log.i(TAG, getDownloadParams().getTag() + "下载失败 : " + msg);
                 }
             });
         }
