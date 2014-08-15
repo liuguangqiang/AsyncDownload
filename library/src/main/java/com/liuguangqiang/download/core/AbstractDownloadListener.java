@@ -36,6 +36,8 @@ public abstract class AbstractDownloadListener {
 
     public static final int MESSAGE_UPDATE_PROGRESS = 5;
 
+    public static final int MESSAGE_CANCEL = 6;
+
     private DownloadParams mParams;
 
     private ResponseHandler mHandler;
@@ -74,6 +76,10 @@ public abstract class AbstractDownloadListener {
         sendMessage(MESSAGE_SUCCESS);
     }
 
+    public void sendCancelMessage() {
+        sendMessage(MESSAGE_CANCEL);
+    }
+
     private void sendMessage(int what) {
         sendMessage(what, null);
     }
@@ -92,19 +98,23 @@ public abstract class AbstractDownloadListener {
                 break;
             case MESSAGE_SUCCESS:
                 onSuccess();
-                sendFinishMessage();
+                onFinish();
                 break;
             case MESSAGE_FAILURE:
                 if (msg.obj != null) {
                     onFailure(msg.obj.toString());
                 }
-                sendFinishMessage();
+                onFinish();
                 break;
             case MESSAGE_UPDATE_PROGRESS:
                 if (msg.obj != null)
                     onProgressUpdate((Integer) msg.obj);
                 break;
             case MESSAGE_FINISH:
+                onFinish();
+                break;
+            case MESSAGE_CANCEL:
+                onCancel();
                 onFinish();
                 break;
         }
@@ -150,5 +160,6 @@ public abstract class AbstractDownloadListener {
 
     public abstract void onFinish();
 
+    public abstract void onCancel();
 
 }

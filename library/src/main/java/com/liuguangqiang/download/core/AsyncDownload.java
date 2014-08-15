@@ -35,13 +35,10 @@ public class AsyncDownload {
     private ExecutorService executorService;
     private AndroidHttpClient mHttpClient;
     private HttpParams mHttpParams;
-
+    private DownloadQueue mDownloadQueue;
 
     private AsyncDownload() {
     }
-
-    ;
-
 
     private volatile static AsyncDownload instance;
 
@@ -72,6 +69,8 @@ public class AsyncDownload {
     }
 
     private void init() {
+        mDownloadQueue = new DownloadQueue();
+
         executorService = mConfiguration.executorService;
         mHttpClient = AndroidHttpClient.newInstance(Constants.USER_AGENT);
         mHttpParams = mHttpClient.getParams();
@@ -103,7 +102,19 @@ public class AsyncDownload {
         } else {
             DownloadTask task = new DownloadTask(mHttpClient, params, listener);
             executorService.submit(task);
+            if (mDownloadQueue != null)
+                mDownloadQueue.add(task);
         }
+    }
+
+    /**
+     * cancel download
+     *
+     * @param url the download url.
+     */
+    public void cancel(String url) {
+        if (mDownloadQueue != null)
+            mDownloadQueue.cancel(url);
     }
 
 }

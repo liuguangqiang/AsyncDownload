@@ -51,4 +51,9 @@ public class DownloadListener extends AbstractDownloadListener {
 
     }
 
+    @Override
+    public void onCancel() {
+
+    }
+
 }

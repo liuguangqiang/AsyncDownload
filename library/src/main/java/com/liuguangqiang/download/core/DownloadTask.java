@@ -47,6 +47,7 @@ public class DownloadTask implements Runnable {
 
     private DownloadParams mParams;
 
+    private boolean isCanceled = false;
 
     public DownloadTask(AndroidHttpClient httpClient, DownloadParams params,
                         DownloadListener listener) {
@@ -55,6 +56,10 @@ public class DownloadTask implements Runnable {
         this.mListener = listener;
         if (this.mListener != null)
             this.mListener.setDownloadParams(params);
+    }
+
+    public DownloadParams getDownloadParams() {
+        return mParams;
     }
 
     @Override
@@ -99,15 +104,31 @@ public class DownloadTask implements Runnable {
                 bufferIo.close();
                 return true;
             } else {
-                Log.i("StatusCode", "下载失败");
+                Log.i("statusCode", "下载失败:" + statusCode);
             }
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.i("StatusCode", "下载失败");
-            if (mListener != null) mListener.sendFailureMessage(e.toString());
+            if (mListener != null) {
+                if (isCanceled) {
+                    mListener.sendCancelMessage();
+                } else {
+                    mListener.sendFailureMessage(e.toString());
+                }
+            }
+
             return false;
         }
+    }
+
+    private void stop(){
+        Thread.currentThread().interrupt();
+    }
+
+    public void cancel() {
+        isCanceled = true;
+        if (httpGet != null)
+            httpGet.abort();
+//        stop();
     }
 
 }
