@@ -52,23 +52,13 @@ public class DownloadQueue {
     }
 
     public void cancel(String downloadUrl) {
-        Log.i("DownloadQueue", "cancel");
-
-//        List<DownloadTask> temps=new ArrayList<DownloadTask>();
-
         if (!isEmpty()) {
             for (DownloadTask task : queue) {
                 if (task.getDownloadParams().getUrl().equals(downloadUrl)) {
                     task.cancel();
-//                    temps.add(task);
                 }
             }
         }
-
-//        queue.removeAll(temps);
-//        temps.clear();
-//        temps=null;
-//        Log.i("DownloadQueue", "size:"+size());
     }
 
 
