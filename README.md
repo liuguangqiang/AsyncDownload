@@ -32,6 +32,15 @@ A simple library for asynchronous downloading.
         @Override
         public void onFailure(String msg) {
         }
+        
+        @Override
+        public void onCancel() {                           
+        }
+        
+        @Override
+        public void onFinish() {                           
+        }
+        
     });
 
 
