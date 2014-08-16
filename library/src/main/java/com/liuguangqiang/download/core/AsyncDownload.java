@@ -70,7 +70,6 @@ public class AsyncDownload {
 
     private void init() {
         mDownloadQueue = new DownloadQueue();
-
         executorService = mConfiguration.executorService;
         mHttpClient = AndroidHttpClient.newInstance(Constants.USER_AGENT);
         mHttpParams = mHttpClient.getParams();

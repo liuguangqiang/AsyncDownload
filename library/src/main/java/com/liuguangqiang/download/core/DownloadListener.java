@@ -16,9 +16,6 @@
 
 package com.liuguangqiang.download.core;
 
-import android.os.Handler;
-import android.os.Message;
-
 /**
  * DownloadListener
  * <p/>
