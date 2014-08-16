@@ -17,9 +17,8 @@
 package com.liuguangqiang.download.core;
 
 /**
- *
  * DownloadParams
- *
+ * <p/>
  * Created by Eric on 2014-8-12
  */
 public class DownloadParams {
@@ -30,12 +29,15 @@ public class DownloadParams {
 
     private String tag;
 
-    public DownloadParams() {
-    }
-
     public DownloadParams(String url, String savePath) {
         this.url = url;
         this.savePath = savePath;
+    }
+
+    public DownloadParams(String url, String savePath, String tag) {
+        this.url = url;
+        this.savePath = savePath;
+        this.tag = tag;
     }
 
     public String getUrl() {
