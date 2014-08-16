@@ -68,10 +68,6 @@ public abstract class AbstractDownloadListener {
         sendMessage(MESSAGE_UPDATE_PROGRESS, progress);
     }
 
-    public void sendFinishMessage() {
-        sendMessage(MESSAGE_FINISH);
-    }
-
     public void sendSuccessMessage() {
         sendMessage(MESSAGE_SUCCESS);
     }
@@ -120,20 +116,6 @@ public abstract class AbstractDownloadListener {
         }
     }
 
-    private static class ResponseHandler extends Handler {
-
-        private final AbstractDownloadListener listener;
-
-        public ResponseHandler(AbstractDownloadListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (this.listener != null) this.listener.handleMessage(msg);
-        }
-    }
-
     /**
      * start to download
      */
@@ -145,7 +127,7 @@ public abstract class AbstractDownloadListener {
     public abstract void onSuccess();
 
     /**
-     * update the progress of download
+     * update the progress of downloading
      *
      * @param progress
      */
@@ -158,8 +140,29 @@ public abstract class AbstractDownloadListener {
      */
     public abstract void onFailure(String msg);
 
+    /**
+     * download finished
+     */
     public abstract void onFinish();
 
+    /**
+     * download canceled
+     */
     public abstract void onCancel();
+
+    private static class ResponseHandler extends Handler {
+
+        private final AbstractDownloadListener listener;
+
+        public ResponseHandler(AbstractDownloadListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (this.listener != null) this.listener.handleMessage(msg);
+        }
+
+    }
 
 }
