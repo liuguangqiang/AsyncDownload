@@ -20,7 +20,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,23 +33,19 @@ import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 /**
- * DownloadTask
+ * Implemented Runnable for async downloading.
  * <p/>
  * Created by Eric on 2014-8-12
  */
 public class DownloadTask implements Runnable {
 
+    private boolean isCanceled = false;
+
     private AndroidHttpClient mHttpClient;
     private HttpUriRequest httpGet;
-    private HttpResponse httpResponse;
-    private long totalSize = 0;
-    private int progress = 0;
 
     private DownloadListener mListener;
-
     private DownloadParams mParams;
-
-    private boolean isCanceled = false;
 
     public DownloadTask(AndroidHttpClient httpClient, DownloadParams params,
                         DownloadListener listener) {
@@ -71,12 +66,23 @@ public class DownloadTask implements Runnable {
         download();
     }
 
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void cancel() {
+        isCanceled = true;
+        httpGet.abort();
+        mListener.sendCancelMessage();
+    }
+
     private boolean download() {
         if (mListener != null) mListener.sendStartMessage();
 
-        if (isCanceled()) return false;
-
         httpGet = new HttpGet(mParams.getUrl());
+
+        long totalSize;
+        int progress = 0;
 
         InputStream io = null;
         BufferedInputStream bufferIo = null;
@@ -84,7 +90,7 @@ public class DownloadTask implements Runnable {
         BufferedOutputStream bufferOut = null;
 
         try {
-            httpResponse = mHttpClient.execute(httpGet);
+            HttpResponse httpResponse = mHttpClient.execute(httpGet);
             int statusCode = httpResponse.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.SC_OK) {
                 totalSize = httpResponse.getEntity().getContentLength();
@@ -95,7 +101,7 @@ public class DownloadTask implements Runnable {
                 bufferOut = new BufferedOutputStream(out);
                 byte[] buf = new byte[1];
                 int len;
-                int percent = 0;
+                int percent;
                 int lastPercent = -1;
                 while ((len = bufferIo.read(buf)) > 0 && !isCanceled()) {
                     bufferOut.write(buf, 0, len);
@@ -112,6 +118,8 @@ public class DownloadTask implements Runnable {
                 return true;
             } else {
                 Log.i("statusCode", "failure code :" + statusCode);
+                if (mListener != null)
+                    mListener.sendFailureMessage("status code:" + statusCode);
             }
             return false;
         } catch (Exception e) {
@@ -123,24 +131,20 @@ public class DownloadTask implements Runnable {
             return false;
         } finally {
             try {
-                bufferOut.flush();
-                bufferOut.close();
-                out.close();
-                io.close();
-                bufferIo.close();
+                if (bufferOut != null) {
+                    bufferOut.flush();
+                    bufferOut.close();
+                }
+                if (out != null)
+                    out.close();
+                if (io != null)
+                    io.close();
+                if (bufferIo != null)
+                    bufferIo.close();
             } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
-    }
-
-    public boolean isCanceled() {
-        return isCanceled;
-    }
-
-    public void cancel() {
-        isCanceled = true;
-        httpGet.abort();
-        mListener.sendCancelMessage();
     }
 
 }
