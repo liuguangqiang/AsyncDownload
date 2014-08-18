@@ -81,10 +81,10 @@ public abstract class AbstractDownloadListener {
     }
 
     private void sendMessage(int what, Object obj) {
-        Message msg = new Message();
+        Message msg = mHandler.obtainMessage();
         msg.what = what;
         msg.obj = obj;
-        mHandler.sendMessage(msg);
+        msg.sendToTarget();
     }
 
     private void handleMessage(Message msg) {
@@ -129,16 +129,16 @@ public abstract class AbstractDownloadListener {
     /**
      * update the progress of downloading
      *
-     * @param progress
+     * @param progress progress of downloading
      */
     public abstract void onProgressUpdate(int progress);
 
     /**
      * download failure
      *
-     * @param msg
+     * @param error message of failure
      */
-    public abstract void onFailure(String msg);
+    public abstract void onFailure(String error);
 
     /**
      * download finished
