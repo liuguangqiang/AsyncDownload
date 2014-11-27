@@ -36,6 +36,8 @@ import android.util.Log;
  * Implemented Runnable for async downloading.
  * <p/>
  * Created by Eric on 2014-8-12
+ *
+ * @since 1.0
  */
 public class DownloadTask implements Runnable {
 
