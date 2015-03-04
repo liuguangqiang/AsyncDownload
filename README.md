@@ -3,6 +3,25 @@ AsyncDownload
 
 A simple library for asynchronous downloading.
 
+##Usage
+
+###Gradle
+```
+dependencies {
+   	compile 'com.github.liuguangqiang:asyncdownload:0.1.0'
+   }
+```
+
+###Maven
+```
+<dependency>
+  	<groupId>com.github.liuguangqiang</groupId>
+  	<artifactId>asyncdownload</artifactId>
+  	<version>0.1.0</version>
+  	<type>aar</type>
+</dependency>
+```
+
 ###Configuration
     DownloadConfiguration configuration=new DownloadConfiguration.Builder()
             .setFixedThreadPool(5)
@@ -13,7 +32,7 @@ A simple library for asynchronous downloading.
             .build();
     AsyncDownload.getInstance().init(configuration);
 
-###Simple
+###Sample
     //Download with AsyncDownload
     AsyncDownload.getInstance().download(params, new DownloadListener() {
 
